@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  syslog-server:
+    build: .
+    container_name: syslog-server
+    ports:
+      - "514:514/udp"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      - SPLUNK_ENABLED=FALSE
+      - SPLUNK_URL=http://splunk-instance:8088/services/collector/event
+      - SPLUNK_TOKEN=your_splunk_token
+      - POSTGRES_HOST=syslog-db
+      - POSTGRES_DB=syslog
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=your_password
+    restart: always
+    depends_on:
+      - syslog-db
+    command: ["sh", "-c", "until nc -z -v -w30 syslog-db 5432; do echo 'Waiting for database'; sleep 2; done; node server.js"]
+
+  syslog-db:
+    image: postgres:latest
+    container_name: syslog-db
+    environment:
+      POSTGRES_DB: syslog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_password
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - "5432:5432"

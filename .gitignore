@@ -1,0 +1,38 @@
+# Node.js dependencies
+/node_modules/
+
+# Logs
+logs/
+*.log
+
+# SQLite database (if you ever switch back to SQLite)
+/app/data/
+
+# PostgreSQL data (if stored inside the container)
+pg_data/
+
+# Build files (in case you use build tools)
+dist/
+
+# Environment variable files
+.env
+.env.local
+
+# Docker files
+docker-compose.override.yml
+
+# npm package-lock files (optional, depending on your team setup)
+package-lock.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Temporary files
+*.swp
+*.bak
